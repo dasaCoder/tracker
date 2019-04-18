@@ -6,25 +6,29 @@ import 'package:location/location.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return MyAppState();
-  }
-
+void main() {
+  runApp(MaterialApp(
+    home: MainActivity(),
+  ));
 }
 
-class MyAppState extends State<MyApp> {
 
+class MainActivity extends StatefulWidget {
+  @override
+  _MainActivityState createState() => _MainActivityState();
+}
+
+class _MainActivityState extends State<MainActivity> {
+  
   Map<String, double> currentLocation = new Map();
   StreamSubscription<Map<String, double>> locationSubscription;
 
-  final DatabaseReference vehicleDatabase = FirebaseDatabase.instance.reference();
-  Location location = new Location();
-  String error;
+  final DatabaseReference database = FirebaseDatabase.instance.reference().child("vehicles");
+
+   Location location = new Location();
+    String error;
+
+  final String vehicle_no = 'xxx-4655';
 
   void initState() {
     super.initState();
@@ -33,9 +37,10 @@ class MyAppState extends State<MyApp> {
     currentLocation['longitude'] = 0.0;
 
     initPlatformState();
+    
     locationSubscription = location.onLocationChanged().listen((Map<String, double> result) {
       setState(() {
-        vehicleDatabase.child('xxxxxx').push().set({
+        database.child(vehicle_no).push().set({
           'lat' : result['latitude'],
           'lng' : result['longitude']
         });
@@ -49,25 +54,25 @@ class MyAppState extends State<MyApp> {
         print(result);
       });
     });
+  }
 
+  sendData() {
+    
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: AppBar( title: Text('KLN Tracker'),),
-        body: Center(
-          child:
-          Column(mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Lat/Lng: ${currentLocation['latitude']}/ ${currentLocation['longitude']}',
-              style: TextStyle(fontSize: 20.0, color: Colors.blueAccent),
-            )
-          ],
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Firebase"),
+        backgroundColor: Colors.amber,
+      ),
+      body: Center(
+        child: FlatButton(
+            onPressed: () => sendData(),
+            child: Text("Send"),
+        color: Colors.amber),
       ),
     );
   }
@@ -89,5 +94,4 @@ class MyAppState extends State<MyApp> {
     });
 
   }
-
 }
