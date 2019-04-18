@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "710668904466",
+    "firebase_url": "https://uok-trp.firebaseio.com",
+    "project_id": "uok-trp",
+    "storage_bucket": "uok-trp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710668904466:android:187f581d8ef75150",
+        "android_client_info": {
+          "package_name": "kln.com.tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710668904466-hiiin64kfsj58t1t4c4iqrb5jlav81ca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9J77k4Kgj8fnqDRkQw0eIdUNUWSBFGXU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

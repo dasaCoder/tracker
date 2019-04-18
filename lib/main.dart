@@ -22,6 +22,7 @@ class MyAppState extends State<MyApp> {
   Map<String, double> currentLocation = new Map();
   StreamSubscription<Map<String, double>> locationSubscription;
 
+  final DatabaseReference vehicleDatabase = FirebaseDatabase.instance.reference();
   Location location = new Location();
   String error;
 
@@ -34,16 +35,11 @@ class MyAppState extends State<MyApp> {
     initPlatformState();
     locationSubscription = location.onLocationChanged().listen((Map<String, double> result) {
       setState(() {
-
-        final vehicleReference = FirebaseDatabase.instance.reference().child('uok-trp');
-
-        vehicleReference.push().set({
-          'lat':result['latitude'],
+        vehicleDatabase.child('xxxxxx').push().set({
+          'lat' : result['latitude'],
           'lng' : result['longitude']
-        })
-        .then((_){
-
         });
+
 
         print("location");
 
