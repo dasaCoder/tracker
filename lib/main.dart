@@ -6,6 +6,9 @@ import 'package:location/location.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 void main() {
   runApp(MaterialApp(
     home: MainActivity(),
@@ -28,6 +31,17 @@ class _MainActivityState extends State<MainActivity> {
    Location location = new Location();
     String error;
 
+  Completer<GoogleMapController> _controller = Completer();
+
+  LatLng _center = LatLng(45.521563, -12.677433);
+  GoogleMapController mapController;
+  final Set <Marker> markers = {}; // CLASS MEMBER, MAP OF MARKS
+
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+    mapController = controller;
+  }
+
   final String vehicle_no = 'xxx-4655';
 
   void initState() {
@@ -39,19 +53,37 @@ class _MainActivityState extends State<MainActivity> {
     initPlatformState();
     
     locationSubscription = location.onLocationChanged().listen((Map<String, double> result) {
+      //print("xdsfsfsdfdsfds");
       setState(() {
         database.child(vehicle_no).push().set({
           'lat' : result['latitude'],
           'lng' : result['longitude']
         });
 
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(result['latitude'],result['longitude']),
+              tilt: 50.0,
+              bearing: 45.0,
+              zoom: 18.0,
+            ),
+          ),
+        );
 
-        print("location");
+        markers.clear();
 
-        // update firebase
+        markers.add(
+            Marker(
+              markerId: MarkerId(LatLng(result['latitude'], result['longitude']).toString()),
+              position: LatLng(result['latitude'], result['longitude']),
+              icon: BitmapDescriptor.fromAsset('assets/icons/car.png') 
+            )
+          );
 
         currentLocation = result;
-        print(result);
+        //print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        //print(BitmapDescriptor.fromAsset('/assets/icons/car.png').toString());
       });
     });
   }
@@ -63,16 +95,20 @@ class _MainActivityState extends State<MainActivity> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Firebase"),
-        backgroundColor: Colors.amber,
-      ),
-      body: Center(
-        child: FlatButton(
-            onPressed: () => sendData(),
-            child: Text("Send"),
-        color: Colors.amber),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('UOK Tracker'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 20.0,
+          ),
+          markers: Set<Marker>.of(markers),
+        ),
       ),
     );
   }

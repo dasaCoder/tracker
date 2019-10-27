@@ -15,6 +15,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  google_maps_flutter: ^0.4.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -34,6 +36,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+
+  assets:
+    - assets/icons/car.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -63,7 +68,7 @@ flutter:
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
-  #     fonts:
+  #     fonts:333333333333333333333333333333333333333
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
