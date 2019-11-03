@@ -11,5 +11,5 @@ A new Flutter application.
 
 - Clone the repo: `git clone https://github.com/dasaCoder/tracker.git`
 - Run `flutter doctor`
-- Run `flutter run` (To run this you might need an android emulator or 
+- Run `flutter run` (To run this you might need an android emulator or android device connected to you pc)
 
